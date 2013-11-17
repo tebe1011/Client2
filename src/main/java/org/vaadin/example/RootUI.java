@@ -599,14 +599,6 @@ public class RootUI extends VerticalLayout {
 		sl_document.setMin(0.0);
 		sl_document.setMax(100.0);
 		sl_document.setValue(100.0);
-		sl_document.addValueChangeListener(new ValueChangeListener() {
-
-			@Override
-			public void valueChange(com.vaadin.data.Property.ValueChangeEvent event) {
-				final String valueString = String.valueOf(event.getProperty().getValue());
-				Notification.show("Value changed:", valueString, Type.TRAY_NOTIFICATION);
-			}
-		});
 
 		HorizontalLayout container = new HorizontalLayout();
 		container.addComponent(textField);
@@ -636,14 +628,6 @@ public class RootUI extends VerticalLayout {
 		sl_appointment.setMin(0.0);
 		sl_appointment.setMax(100.0);
 		sl_appointment.setValue(100.0);
-		sl_appointment.addValueChangeListener(new ValueChangeListener() {
-
-			@Override
-			public void valueChange(com.vaadin.data.Property.ValueChangeEvent event) {
-				final String valueString = String.valueOf(event.getProperty().getValue());
-				Notification.show("Value changed:", valueString, Type.TRAY_NOTIFICATION);
-			}
-		});
 
 		HorizontalLayout container = new HorizontalLayout();
 		container.addComponent(textField);
@@ -673,14 +657,6 @@ public class RootUI extends VerticalLayout {
 		sl_phonecalls.setMin(0.0);
 		sl_phonecalls.setMax(100.0);
 		sl_phonecalls.setValue(100.0);
-		sl_phonecalls.addValueChangeListener(new ValueChangeListener() {
-
-			@Override
-			public void valueChange(com.vaadin.data.Property.ValueChangeEvent event) {
-				final String valueString = String.valueOf(event.getProperty().getValue());
-				Notification.show("Value changed:", valueString, Type.TRAY_NOTIFICATION);
-			}
-		});
 
 		HorizontalLayout container = new HorizontalLayout();
 		container.addComponent(textField);
@@ -710,14 +686,6 @@ public class RootUI extends VerticalLayout {
 		sl_emails.setMin(0.0);
 		sl_emails.setMax(100.0);
 		sl_emails.setValue(100.0);
-		sl_emails.addValueChangeListener(new ValueChangeListener() {
-
-			@Override
-			public void valueChange(com.vaadin.data.Property.ValueChangeEvent event) {
-				final String valueString = String.valueOf(event.getProperty().getValue());
-				Notification.show("Value changed:", valueString, Type.TRAY_NOTIFICATION);
-			}
-		});
 
 		HorizontalLayout container = new HorizontalLayout();
 		container.addComponent(textField);
@@ -747,14 +715,6 @@ public class RootUI extends VerticalLayout {
 		sl_opportunitys.setMin(0.0);
 		sl_opportunitys.setMax(100.0);
 		sl_opportunitys.setValue(100.0);
-		sl_opportunitys.addValueChangeListener(new ValueChangeListener() {
-
-			@Override
-			public void valueChange(com.vaadin.data.Property.ValueChangeEvent event) {
-				final String valueString = String.valueOf(event.getProperty().getValue());
-				Notification.show("Value changed:", valueString, Type.TRAY_NOTIFICATION);
-			}
-		});
 
 		HorizontalLayout container = new HorizontalLayout();
 		container.addComponent(textField);

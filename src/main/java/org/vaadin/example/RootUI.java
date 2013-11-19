@@ -455,7 +455,9 @@ public class RootUI extends VerticalLayout {
 		og_Groups = new OptionGroup();
 
 		for (Entry<String, String> entry : CasAnalyticUI.sysGroup.entrySet()) {
-			og_Groups.addItem(entry.getValue());
+			if(!entry.getValue().contains("ZZZ")){
+				og_Groups.addItem(entry.getValue());
+			}
 		}
 
 		og_Groups.setEnabled(false);
@@ -792,9 +794,10 @@ public class RootUI extends VerticalLayout {
 
 			obj.put("OptionGroup_Group", og_Groups.getValue());
 
+			System.out.println(obj.getString("OptionGroup_Group"));
+			
 			JSONObject result = restClient.doGetRequestStep4(obj);
 			Iterator<?> keys = result.keys();
-			String text = "";
 
 			String[] names = new String[result.length()];
 			// Number[] values = new Number[result.length()];

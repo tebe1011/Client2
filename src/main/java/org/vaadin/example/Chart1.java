@@ -44,7 +44,7 @@ public class Chart1 extends Chart {
 
         Tooltip tooltip = new Tooltip();
         tooltip.setFormatter("function() { return ''+ this.x +''"
-                + "+this.series.name +': '+ this.y +''+'Total: '+ this.point.stackTotal; }");
+                + "+this.series.name +': '+ this.y +''+' Total: '+ this.point.stackTotal; }");
         conf.setTooltip(tooltip);
 
         PlotOptionsColumn plotOptions = new PlotOptionsColumn();

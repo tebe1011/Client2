@@ -30,12 +30,12 @@ public class JerseyClient implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	static final String URIStep1 = "http://192.168.0.125:8080/CasAnalyticServer/Extract/Step1";
-	static final String URIStep2 = "http://192.168.0.125:8080/CasAnalyticServer/Extract/Step2";
-	static final String URIStep3 = "http://192.168.0.125:8080/CasAnalyticServer/Extract/Step3";
-	static final String URIStep4 = "http://192.168.0.125:8080/CasAnalyticServer/Extract/Step4";
-	static final String URIStep5 = "http://192.168.0.125:8080/CasAnalyticServer/Extract/Step5";
-	static final String URIUSERDATA = "http://192.168.0.125:8080/CasAnalyticServer/Extract/UserData";
+	static final String URIStep1 = "http://172.24.60.216:8080/CasAnalyticServer/Extract/Step1";
+	static final String URIStep2 = "http://172.24.60.216:8080/CasAnalyticServer/Extract/Step2";
+	static final String URIStep3 = "http://172.24.60.216:8080/CasAnalyticServer/Extract/Step3";
+	static final String URIStep4 = "http://172.24.60.216:8080/CasAnalyticServer/Extract/Step4";
+	static final String URIStep5 = "http://172.24.60.216:8080/CasAnalyticServer/Extract/Step5";
+	static final String URIUSERDATA = "http://172.24.60.216:8080/CasAnalyticServer/Extract/UserData";
 
 	private WebResource webResource;
 	private Client client;

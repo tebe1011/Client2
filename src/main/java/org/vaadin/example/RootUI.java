@@ -1,6 +1,8 @@
 package org.vaadin.example;
 
 import java.awt.MultipleGradientPaint;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -44,6 +46,7 @@ import com.vaadin.ui.VerticalLayout;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.concurrent.TimeUnit;
 
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
@@ -90,19 +93,14 @@ public class RootUI extends VerticalLayout {
 	private Slider sl_opportunitys;
 
 	private OptionGroup og_Groups;
-
-	private TextArea resultArea;
-
-	private JerseyClient restClient;
-
-	private String UserID;
-
-	private CasAnalyticUI ui;
-
-	private Chart1 chart;
-
-	private Button search;
 	
+	private TextArea resultArea;
+	private JerseyClient restClient;
+	private String UserID;
+	private CasAnalyticUI ui;
+	private Chart1 chart;
+	private Button search;
+	private Label timeOut;
 	private Label wrongUser;
 
 	public RootUI(CasAnalyticUI c) {
@@ -271,7 +269,9 @@ public class RootUI extends VerticalLayout {
 		weighting.addComponent(createSharedEmails());
 		weighting.addComponent(createSharedOppotunitys());
 		weighting.addComponent(createSearchButton());
+		weighting.addComponent(createTimeOut());
 		weighting.setComponentAlignment(search, Alignment.MIDDLE_CENTER);
+		weighting.setComponentAlignment(timeOut, Alignment.MIDDLE_CENTER);
 
 		periodOfTime.addComponent(createStartPeriod());
 		periodOfTime.addComponent(createStartField());
@@ -299,12 +299,26 @@ public class RootUI extends VerticalLayout {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				getRelationData();
+				
+				long startFinal = getDateDiff(df_start.getValue(), df_end.getValue(), TimeUnit.DAYS);
+				int summe = Integer.parseInt(tf_IntervalLEnd.getValue()) + Integer.parseInt(tf_IntervallStart.getValue());
+				
+				if(summe < startFinal) {
+					getRelationData();
+				}
 			}
 		});
 		return search;
 	}
 
+	private Label createTimeOut() {
+		
+		timeOut = new Label("response time: -");
+		timeOut.setStyleName("timeOut");
+		timeOut.setValue("response time: ~ 0 ms");
+		return timeOut;
+	}
+	
 	private HorizontalLayout createIsEmployee() {
 
 		comBox_isEmployee = new ComboBox();
@@ -456,7 +470,7 @@ public class RootUI extends VerticalLayout {
 
 		for (Entry<String, String> entry : CasAnalyticUI.sysGroup.entrySet()) {
 			if(!entry.getValue().contains("ZZZ")){
-				og_Groups.addItem(entry.getValue());
+				og_Groups.addItem(entry.getKey());
 			}
 		}
 
@@ -499,7 +513,7 @@ public class RootUI extends VerticalLayout {
 		df_start.setLocale(Locale.getDefault());
 		df_start.setResolution(Resolution.MINUTE);
 		df_start.setDateFormat("dd-MM-yyyy HH:mm");
-		df_start.setValue(new Date(2003 - 1900, 0, 1, 12, 0));
+		df_start.setValue(new Date(2010 - 1900, 0, 1, 12, 0));
 
 		df_start.addValueChangeListener(new ValueChangeListener() {
 			@Override
@@ -804,11 +818,11 @@ public class RootUI extends VerticalLayout {
 
 			ArrayList<Number[]> series = new ArrayList<Number[]>();
 
-			Number[] doc = new Number[result.length()];
-			Number[] eml = new Number[result.length()];
-			Number[] app = new Number[result.length()];
-			Number[] opp = new Number[result.length()];
-			Number[] phc = new Number[result.length()];
+			Number[] doc = new Number[result.length()-1];
+			Number[] eml = new Number[result.length()-1];
+			Number[] app = new Number[result.length()-1];
+			Number[] opp = new Number[result.length()-1];
+			Number[] phc = new Number[result.length()-1];
 
 			series.add(doc);
 			series.add(eml);
@@ -817,19 +831,28 @@ public class RootUI extends VerticalLayout {
 			series.add(phc);
 
 			int index = 0;
-
+			boolean first = true;
+			
+			timeOut.setValue("response time: ~"+result.getLong("respond") + " ms");
+			timeOut.requestRepaint();
+			
 			while (keys.hasNext()) {
-				String key = (String) keys.next();
-				names[index] = CasAnalyticUI.sysUser.get(key);
-				JSONArray container = (JSONArray) result.get(key);
+				if(first) {
+					keys.next();
+					first = false;
+				}
+				else {
+					String key = (String) keys.next();
+					names[index] = CasAnalyticUI.sysUser.get(key);
+					JSONArray container = (JSONArray) result.get(key);
 
-				doc[index] = container.getInt(1);
-				eml[index] = container.getInt(2);
-				app[index] = container.getInt(3);
-				opp[index] = container.getInt(4);
-				phc[index] = container.getInt(5);
-
-				index += 1;
+					doc[index] = container.getInt(1);
+					eml[index] = container.getInt(2);
+					app[index] = container.getInt(3);
+					opp[index] = container.getInt(4);
+					phc[index] = container.getInt(5);
+					index += 1;
+				}
 			}
 
 			chart.refreshChart(names, series);
@@ -839,5 +862,10 @@ public class RootUI extends VerticalLayout {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static long getDateDiff(Date date1, Date date2, TimeUnit timeUnit) {
+		long diffInMillies = date2.getTime() - date1.getTime();
+		return timeUnit.convert(diffInMillies, TimeUnit.MILLISECONDS);
 	}
 }

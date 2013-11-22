@@ -64,7 +64,7 @@ public class CasAnalyticUI extends UI implements Serializable {
 		if(sysGroup.isEmpty()) {
 			CSVReader reader;
 			try {
-				reader = new CSVReader(new FileReader(extractPath + "SysGroup.csv"));
+				reader = new CSVReader(new FileReader(extractPath + "SysGroupRelation.csv"));
 				String[] nextLine;
 				while ((nextLine = reader.readNext()) != null) {
 					sysGroup.put(nextLine[0], nextLine[1]);
